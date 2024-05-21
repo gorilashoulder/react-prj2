@@ -42,7 +42,26 @@ export function BoardView() {
   }, []);
 
   function handleClickRemove() {
-    axios.delete(`/api/board/${id}`);
+    axios
+      .delete(`/api/board/${id}`)
+      .then(() => {
+        toast({
+          status: "success",
+          description: `${id}번 게시물이 삭제되었습니다`,
+          position: "top",
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        toast({
+          status: "error",
+          description: `${id}번 게시물 삭제 중 오류가 났습니다`,
+          position: "top",
+        });
+      })
+      .finally(() => {
+        onClose();
+      });
   }
 
   if (board === null) {
@@ -92,8 +111,10 @@ export function BoardView() {
           <ModalHeader></ModalHeader>
           <ModalBody>삭제하시겠습니까?</ModalBody>
           <ModalBody>
-            <Button colorScheme={"blue"}>확인</Button>
-            <Button colorScheme={"red"} onClick={handleClickRemove}>
+            <Button colorScheme={"blue"} onClick={handleClickRemove}>
+              확인
+            </Button>
+            <Button colorScheme={"red"} onClick={onClose}>
               취소
             </Button>
           </ModalBody>
