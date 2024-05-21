@@ -30,6 +30,7 @@ export function BoardWrite() {
           description: "새 글이 등록되었습니다.",
           status: "success",
           position: "top",
+          isClosable: true,
         });
         navigate("/");
       })
