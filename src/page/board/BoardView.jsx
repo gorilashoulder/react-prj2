@@ -94,7 +94,11 @@ export function BoardView() {
         <Input value={board.inserted} readOnly />
       </Box>
       <Box>
-        <Button sx={{ bgColor: "blue.300" }} colorScheme={"blue"}>
+        <Button
+          sx={{ bgColor: "blue.300" }}
+          colorScheme={"blue"}
+          onClick={() => navigate(`/edit/${board.id}`)}
+        >
           수정
         </Button>
         <Button
