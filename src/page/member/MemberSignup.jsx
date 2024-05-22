@@ -190,7 +190,12 @@ export function MemberSignup() {
           <FormControl>
             <FormLabel>닉네임</FormLabel>
             <InputGroup>
-              <Input onChange={(e) => setNickName(e.target.value)} />
+              <Input
+                value={nickName}
+                onChange={(e) => {
+                  setNickName(e.target.value.trim());
+                }}
+              />
               <InputRightElement w={"75px"} mr={1}>
                 <Button
                   isDisabled={nickName.trim().length == 0}
