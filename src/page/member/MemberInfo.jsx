@@ -13,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export function MemberInfo() {
   const [member, setMember] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
@@ -33,9 +34,34 @@ export function MemberInfo() {
       });
   }, []);
 
+  function handleClickLemove() {
+    setIsLoading(true);
+    axios
+      .delete(`/api/member/${id}`)
+      .then(() => {
+        toast({
+          status: "success",
+          description: "회원 탈퇴하였습니다.",
+          position: "top",
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        toast({
+          status: "error",
+          description: "회원 탈퇴 중 문제가 발생하였습니다.",
+          position: "top",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
   if (member === null) {
     return <Spinner />;
   }
+
   return (
     <Box>
       <Box>회원정보</Box>
@@ -60,7 +86,13 @@ export function MemberInfo() {
         </Box>
         <Box>
           <Button colorScheme={"blue"}>수정</Button>
-          <Button colorScheme={"red"}>삭제</Button>
+          <Button
+            isLoading={isLoading}
+            colorScheme={"red"}
+            onClick={handleClickLemove}
+          >
+            탈퇴
+          </Button>
         </Box>
       </Box>
     </Box>
