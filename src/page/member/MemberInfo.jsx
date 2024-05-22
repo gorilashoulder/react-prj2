@@ -4,7 +4,14 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -14,9 +21,11 @@ import { useNavigate, useParams } from "react-router-dom";
 export function MemberInfo() {
   const [member, setMember] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
   const { id } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     axios
@@ -37,7 +46,7 @@ export function MemberInfo() {
   function handleClickLemove() {
     setIsLoading(true);
     axios
-      .delete(`/api/member/${id}`)
+      .delete(`/api/member/${id}`, { data: { id, password } })
       .then(() => {
         toast({
           status: "success",
@@ -86,15 +95,35 @@ export function MemberInfo() {
         </Box>
         <Box>
           <Button colorScheme={"blue"}>수정</Button>
-          <Button
-            isLoading={isLoading}
-            colorScheme={"red"}
-            onClick={handleClickLemove}
-          >
+          <Button colorScheme={"red"} onClick={onOpen}>
             탈퇴
           </Button>
         </Box>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>탈퇴확인</ModalHeader>
+          <ModalBody>
+            <FormControl>
+              <FormLabel>암호</FormLabel>
+              <Input onChange={(e) => setPassword(e.target.value)} />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose} colorScheme={"red"}>
+              취소
+            </Button>
+            <Button
+              colorScheme={"blue"}
+              isLoading={isLoading}
+              onClick={handleClickLemove}
+            >
+              확인
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
