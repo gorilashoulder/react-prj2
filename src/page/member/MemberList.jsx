@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Spinner,
@@ -9,15 +9,21 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 export function MemberList() {
   const [memberList, setMemberList] = useState([]);
 
+  useEffect(() => {
+    axios.get("/api/member/list").then((res) => {
+      setMemberList(res.data);
+    });
+  }, []);
   if (memberList.length === 0) {
     return <Spinner />;
   }
 
-  return null(
+  return (
     <Box>
       <Box>회원목록</Box>
       <Box>
@@ -32,7 +38,7 @@ export function MemberList() {
           </Thead>
           <Tbody>
             {memberList.map((member) => (
-              <Tr>
+              <Tr key={member.id}>
                 <Td>{member.id}</Td>
                 <Td>{member.email}</Td>
                 <Td>{member.nickName}</Td>
@@ -42,6 +48,6 @@ export function MemberList() {
           </Tbody>
         </Table>
       </Box>
-    </Box>,
+    </Box>
   );
 }
