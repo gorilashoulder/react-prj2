@@ -88,7 +88,6 @@ export function MemberSignup() {
           description: "사용할수 없는 닉네임입니다",
           position: "top",
         });
-        setIsCheckedNickName(true);
       })
       .catch((err) => {
         if (err.response.status === 404) {
@@ -97,6 +96,7 @@ export function MemberSignup() {
             description: "사용 가능한 닉네임입니다",
             position: "top",
           });
+          setIsCheckedNickName(true);
         }
       })
       .finally();
@@ -107,9 +107,11 @@ export function MemberSignup() {
     isDisabled = true;
   }
   if (
-    email.trim().length > 0 &&
-    password.trim().length > 0 &&
-    nickName.trim().length > 0
+    !(
+      email.trim().length > 0 &&
+      password.trim().length > 0 &&
+      nickName.trim().length > 0
+    )
   ) {
     isDisabled = true;
   }
