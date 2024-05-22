@@ -4,6 +4,8 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -49,13 +51,44 @@ export function MemberSignup() {
       });
   }
 
+  function handleCheckEmail() {
+    axios
+      .get(`/api/member/check?email=${email}`)
+      .then((res) => {
+        toast({
+          status: "error",
+          description: "사용할수 없는 이메일입니다",
+          position: "top",
+        });
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          toast({
+            status: "success",
+            description: "사용 가능한 이메일입니다",
+            position: "top",
+          });
+        }
+      })
+      .finally();
+  }
+
   return (
     <Box>
       <Box>회원가입</Box>
       <Box>
         <Box>
-          <FormControl>이메일</FormControl>
-          <Input onChange={(e) => setEmail(e.target.value)} />
+          <FormControl>
+            <FormLabel>이메일</FormLabel>
+            <InputGroup>
+              <Input onChange={(e) => setEmail(e.target.value)} />
+              <InputRightElement w={"75px"} mr={1}>
+                <Button size={"sm"} onClick={handleCheckEmail}>
+                  중복확인
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
         </Box>
         <Box>
           <FormControl>
