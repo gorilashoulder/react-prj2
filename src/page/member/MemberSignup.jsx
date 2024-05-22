@@ -179,7 +179,6 @@ export function MemberSignup() {
             <Input
               onChange={(e) => {
                 setPasswordCheck(e.target.value);
-                setIsCheckedEmail(false);
               }}
             />
             {isCheckedPassword || (
