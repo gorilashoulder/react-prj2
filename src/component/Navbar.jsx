@@ -33,7 +33,7 @@ export function Navbar() {
           회원정보
         </Box>
       )}
-      {account.isLoggedIn()
+      {account.isLoggedIn() || (
         <Box
           onClick={() => navigate("/signup")}
           cursor={"pointer"}
@@ -41,24 +41,28 @@ export function Navbar() {
         >
           회원가입
         </Box>
-      }
-      <Box
-        onClick={() => navigate("/login")}
-        cursor={"pointer"}
-        _hover={{ bgColor: "gray.200" }}
-      >
-        로그인
-      </Box>
-      <Box
-        onClick={() => {
-          account.logout();
-          navigate("/login");
-        }}
-        cursor={"pointer"}
-        _hover={{ bgColor: "gray.200" }}
-      >
-        로그아웃
-      </Box>
+      )}
+      {account.isLoggedIn() || (
+        <Box
+          onClick={() => navigate("/login")}
+          cursor={"pointer"}
+          _hover={{ bgColor: "gray.200" }}
+        >
+          로그인
+        </Box>
+      )}
+      {account.isLoggedIn() && (
+        <Box
+          onClick={() => {
+            account.logout();
+            navigate("/login");
+          }}
+          cursor={"pointer"}
+          _hover={{ bgColor: "gray.200" }}
+        >
+          로그아웃
+        </Box>
+      )}
     </Flex>
   );
 }
