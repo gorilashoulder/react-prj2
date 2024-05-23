@@ -19,9 +19,23 @@ export function MemberLogin() {
   function handleLogin() {
     axios
       .post("/api/member/token", { email, password })
-      .then((res) => {})
-      .catch()
-      .finally();
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        toast({
+          status: "success",
+          description: "로그인 되었습니다.",
+          position: "top",
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        localStorage.removeItem("token");
+        toast({
+          status: "error",
+          description: "로그인 실패",
+          position: "top",
+        });
+      });
   }
 
   return (
