@@ -8,6 +8,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 export function Navbar() {
   const navigate = useNavigate();
   const account = useContext(LoginContext);
+
   return (
     <Flex gap={3}>
       <Box
