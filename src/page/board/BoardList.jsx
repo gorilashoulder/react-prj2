@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   Input,
   Select,
   Table,
@@ -38,6 +39,9 @@ export function BoardList() {
       setPageInfo(res.data.pageInfo);
     });
 
+    setSearchType("all");
+    setSearchKeyword("");
+
     const typeParam = searchParams.get("type");
     const keywordParam = searchParams.get("keyword");
     if (typeParam) {
@@ -55,6 +59,11 @@ export function BoardList() {
 
   function handleSearchClick() {
     navigate(`/?type=${searchType}&keyword=${searchKeyword}`);
+  }
+
+  function handlePageButtonClick(pageNumber) {
+    searchParams.set("page", pageNumber);
+    navigate(`/?${searchParams}`);
   }
 
   return (
@@ -92,39 +101,41 @@ export function BoardList() {
       </Box>
       <Box>
         <Center>
-          <Box>
-            <Select
-              value={setSearchType}
-              onChange={(e) => setSearchType(e.target.value)}
-            >
-              <option value={"all"}> 전체 </option>
-              <option value={"text"}> 글 </option>
-              <option value={"nickName"}> 작성자 </option>
-            </Select>
-          </Box>
-          <Box>
-            <Input
-              value={searchKeyword}
-              placeholder={"검색어"}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
-          </Box>
-          <Box>
-            <Button onClick={handleSearchClick}>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </Button>
-          </Box>
+          <Flex>
+            <Box>
+              <Select
+                value={searchType}
+                onChange={(e) => setSearchType(e.target.value)}
+              >
+                <option value={"all"}> 전체 </option>
+                <option value={"text"}> 글 </option>
+                <option value={"nickName"}> 작성자 </option>
+              </Select>
+            </Box>
+            <Box>
+              <Input
+                value={searchKeyword}
+                placeholder={"검색어"}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <Button onClick={handleSearchClick}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Button>
+            </Box>
+          </Flex>
         </Center>
       </Box>
       <Center>
         {pageInfo.prevPageNumber && (
           <>
-            <Button onClick={() => navigate("/?page=1")}>
+            <Button onClick={() => handlePageButtonClick(1)}>
               {" "}
               <FontAwesomeIcon icon={faAnglesLeft} />{" "}
             </Button>
             <Button
-              onClick={() => navigate(`/?page=${pageInfo.prevPageNumber}`)}
+              onClick={() => handlePageButtonClick(pageInfo.prevPageNumber)}
             >
               <FontAwesomeIcon icon={faAngleLeft} />
             </Button>
@@ -136,7 +147,7 @@ export function BoardList() {
             colorScheme={
               pageNumber === pageInfo.currentPageNumber ? "blue" : "gray"
             }
-            onClick={() => navigate(`/?page=${pageNumber}`)}
+            onClick={() => handlePageButtonClick(pageNumber)}
           >
             {pageNumber}
           </Button>
@@ -144,12 +155,12 @@ export function BoardList() {
         {pageInfo.nextPageNumber && (
           <>
             <Button
-              onClick={() => navigate(`/?page=${pageInfo.nextPageNumber}`)}
+              onClick={() => handlePageButtonClick(pageInfo.nextPageNumber)}
             >
               <FontAwesomeIcon icon={faAngleRight} />
             </Button>
             <Button
-              onClick={() => navigate(`/?page=${pageInfo.lastPageNumber}`)}
+              onClick={() => handlePageButtonClick(pageInfo.lastPageNumber)}
             >
               <FontAwesomeIcon icon={faAnglesRight} />
             </Button>
