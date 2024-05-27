@@ -37,6 +37,15 @@ export function BoardList() {
       setBoardList(res.data.boardList);
       setPageInfo(res.data.pageInfo);
     });
+
+    const typeParam = searchParams.get("type");
+    const keywordParam = searchParams.get("keyword");
+    if (typeParam) {
+      setSearchType(typeParam);
+    }
+    if (keywordParam) {
+      setSearchKeyword(keywordParam);
+    }
   }, [searchParams]);
 
   const pageNumbers = [];
@@ -84,7 +93,10 @@ export function BoardList() {
       <Box>
         <Center>
           <Box>
-            <Select onChange={(e) => setSearchType(e.target.value)}>
+            <Select
+              value={setSearchType}
+              onChange={(e) => setSearchType(e.target.value)}
+            >
               <option value={"all"}> 전체 </option>
               <option value={"text"}> 글 </option>
               <option value={"nickName"}> 작성자 </option>
@@ -92,6 +104,7 @@ export function BoardList() {
           </Box>
           <Box>
             <Input
+              value={searchKeyword}
               placeholder={"검색어"}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
