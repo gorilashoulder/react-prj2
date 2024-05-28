@@ -6,6 +6,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -88,6 +89,14 @@ export function BoardView() {
           <FormLabel>본문</FormLabel>
           <Textarea value={board.content} readOnly />
         </FormControl>
+      </Box>
+      <Box>
+        {board.imageSrcList &&
+          board.imageSrcList.map((src) => (
+            <Box key={src} border={"2px solid black"} m={3}>
+              <Image src={src} />
+            </Box>
+          ))}
       </Box>
       <Box>
         <FormControl>
