@@ -33,6 +33,7 @@ export function BoardView() {
     like: false,
     count: 0,
   });
+  const [isLikeProcessing, setIsLikeProcessing] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
   const navigate = useNavigate();
@@ -41,7 +42,10 @@ export function BoardView() {
   useEffect(() => {
     axios
       .get(`/api/board/${id}`)
-      .then((res) => setBoard(res.data))
+      .then((res) => {
+        setBoard(res.data.board);
+        setLike(res.data.like);
+      })
       .catch((err) => {
         if (err.response.status === 404) {
           toast({
@@ -86,13 +90,16 @@ export function BoardView() {
   }
 
   function handelClickLike() {
+    setIsLikeProcessing(true);
     axios
       .put("/api/board/like", { boardId: board.id })
       .then((res) => {
         setLike(res.data);
       })
       .catch(() => {})
-      .finally(() => {});
+      .finally(() => {
+        setIsLikeProcessing(false);
+      });
   }
 
   return (
@@ -100,11 +107,20 @@ export function BoardView() {
       <Flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
-        <Box onClick={handelClickLike} cursor="pointer" fontSize="3xl">
-          {like.like && <FontAwesomeIcon icon={fullHeart} />}
-          {like.like || <FontAwesomeIcon icon={emptyHeart} />}
-        </Box>
-        <Box fontSize={"3xl"}>{like.count}</Box>
+        {isLikeProcessing || (
+          <Flex>
+            <Box onClick={handelClickLike} cursor="pointer" fontSize="3xl">
+              {like.like || <FontAwesomeIcon icon={fullHeart} />}
+              {like.like && <FontAwesomeIcon icon={emptyHeart} />}
+            </Box>
+            <Box fontSize={"3xl"}>{like.count}</Box>
+          </Flex>
+        )}
+        {isLikeProcessing && (
+          <Box pr={3}>
+            <Spinner />
+          </Box>
+        )}
       </Flex>
       <Box>
         <FormControl>
