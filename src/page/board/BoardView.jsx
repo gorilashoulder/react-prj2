@@ -85,16 +85,16 @@ export function BoardView() {
     return <Spinner />;
   }
 
+  function handelClickLike() {
+    axios.put("/api/board/like", { boardId: board.id });
+  }
+
   return (
     <Box>
       <Flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
-        <Box
-          onClick={() => setLike({ ...like, like: !like.like })}
-          cursor="pointer"
-          fontSize="3xl"
-        >
+        <Box onClick={handelClickLike} cursor="pointer" fontSize="3xl">
           {like.like && <FontAwesomeIcon icon={fullHeart} />}
           {like.like || <FontAwesomeIcon icon={emptyHeart} />}
         </Box>
