@@ -86,7 +86,13 @@ export function BoardView() {
   }
 
   function handelClickLike() {
-    axios.put("/api/board/like", { boardId: board.id });
+    axios
+      .put("/api/board/like", { boardId: board.id })
+      .then((res) => {
+        setLike(res.data);
+      })
+      .catch(() => {})
+      .finally(() => {});
   }
 
   return (
