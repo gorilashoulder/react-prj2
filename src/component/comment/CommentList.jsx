@@ -3,7 +3,7 @@ import axios from "axios";
 import { Box } from "@chakra-ui/react";
 import { CommentItem } from "./CommentItem.jsx";
 
-export function CommentList({ boardId, isSending }) {
+export function CommentList({ boardId, isSending, setIsSending }) {
   const [commentList, setCommentList] = useState([]);
   useEffect(() => {
     if (!isSending) {
@@ -22,7 +22,12 @@ export function CommentList({ boardId, isSending }) {
   return (
     <Box>
       {commentList.map((comment) => (
-        <CommentItem comment={comment} key={comment} />
+        <CommentItem
+          comment={comment}
+          key={comment}
+          isSending={isSending}
+          setIsSanding={setIsSending}
+        />
       ))}
     </Box>
   );

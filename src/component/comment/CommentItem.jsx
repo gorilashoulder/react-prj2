@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-export function CommentItem({ comment }) {
+export function CommentItem({ comment, setIsSanding }) {
   function handleRemoveClick() {
+    setIsSanding(true);
     axios
       .delete(`/api/comment/remove`, {
         data: { id: comment.id },
       })
       .then((res) => {})
       .catch((err) => {})
-      .finally(() => {});
+      .finally(() => {
+        setIsSanding(false);
+      });
   }
   return (
     <Box border={"1px solid black"} my={3}>

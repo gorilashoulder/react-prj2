@@ -12,7 +12,11 @@ export function CommentComponent({ boardId }) {
         isSending={isSending}
         setIsSending={setIsSending}
       />
-      <CommentList boardId={boardId} isSending={isSending} />
+      <CommentList
+        boardId={boardId}
+        isSending={isSending}
+        setIsSending={setIsSending}
+      />
     </Box>
   );
 }
