@@ -7,10 +7,10 @@ export function CommentList({ boardId }) {
   useEffect(() => {
     axios
       .get(`/api/comment/list/${boardId}`)
-      .then(() => {
+      .then((res) => {
         setCommentList(res.data);
       })
-      .catch(() => {})
+      .catch((err) => console.log(err))
       .finally(() => {});
   }, []);
   if (commentList.length === 0) {
@@ -19,7 +19,7 @@ export function CommentList({ boardId }) {
   return (
     <Box>
       {commentList.map((comment) => (
-        <Box key={comment.id} border={"1px solid blakc"} my={3}>
+        <Box key={comment.id} border={"1px solid black"} my={3}>
           <Flex>
             <Box>{comment.memberId}</Box>
             <Spacer />
