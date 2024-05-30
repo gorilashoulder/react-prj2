@@ -24,9 +24,9 @@ export function CommentList({ boardId, isSending, setIsSending }) {
       {commentList.map((comment) => (
         <CommentItem
           comment={comment}
-          key={comment}
+          key={comment.id}
           isSending={isSending}
-          setIsSanding={setIsSending}
+          setIsSending={setIsSending}
         />
       ))}
     </Box>

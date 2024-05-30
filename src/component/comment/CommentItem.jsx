@@ -28,6 +28,7 @@ export function CommentItem({ comment, setIsSending, isSending }) {
       .then((res) => {})
       .catch((err) => {})
       .finally(() => {
+        onClose();
         setIsSending(false);
         toast({
           description: "댓글이 삭제되었습니다.",
@@ -47,7 +48,7 @@ export function CommentItem({ comment, setIsSending, isSending }) {
         <Box>{comment.comment}</Box>
         <Spacer />
         <Box>
-          <Button onClick={handleRemoveClick}>
+          <Button onClick={onOpen} isLoading={isSending}>
             <FontAwesomeIcon icon={faTrashCan} />
           </Button>
         </Box>
