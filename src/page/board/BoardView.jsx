@@ -26,6 +26,7 @@ import { LoginContext } from "../../component/LoginProvider.jsx";
 import { faThumbsUp as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as emptyHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CommentComponent } from "../../component/comment/CommentComponent.jsx";
 
 export function BoardView() {
   const { id } = useParams();
@@ -180,6 +181,7 @@ export function BoardView() {
           </Button>
         </Box>
       )}
+      <CommentComponent boardId={board.id} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
